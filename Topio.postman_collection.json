@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "9592a5f9-5e5c-4e0a-9f9a-9d34cf947d18",
+		"name": "Topio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1747570"
+	},
+	"item": [
+		{
+			"name": "Get Latest Rates - app",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/fx/HUF",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"fx",
+						"HUF"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Latest Rates  for a currency - app",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/exchange-rates/EUR",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"exchange-rates",
+						"EUR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Latest Rate - frankfurter",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept-encoding": true,
+					"accept": true,
+					"user-agent": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.frankfurter.app/latest",
+					"protocol": "https",
+					"host": [
+						"api",
+						"frankfurter",
+						"app"
+					],
+					"path": [
+						"latest"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
