@@ -6,26 +6,24 @@ import com.assignment.topia.dto.CurrencyTimelineResponse;
 import com.assignment.topia.dto.FrankfurterResponse;
 import com.assignment.topia.model.CurrencyExchangeRate;
 import com.assignment.topia.repository.CurrencyExchangeRateRepo;
-import com.assignment.topia.util.AppConstants;
 import jdk.jfr.Name;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.*;
 
-import static com.assignment.topia.util.AppConstants.DATE_PATTERN;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @SpringBootTest
 class CurrencyExchangeRateServiceTest {
+
+    public final String CURRENCY_USD = "USD";
 
     @MockBean
     CurrencyExchangeRateRepo exchangeRateRepo;
@@ -53,10 +51,26 @@ class CurrencyExchangeRateServiceTest {
         hm.put("2024-08-17", cr2);
         hm.put("2024-08-18", cr3);
         mockedTimeSeriesResponse.setRates(hm);
-        mockedTimeSeriesResponse.setSource(AppConstants.CURRENCY_USD);
+        mockedTimeSeriesResponse.setSource(CURRENCY_USD);
 
         assertEquals(timeLineResponse.getSource(), mockedTimeSeriesResponse.getSource());
         assertEquals(timeLineResponse.getRates().size(), mockedTimeSeriesResponse.getRates().size());
+    }
+
+    @Test
+    void getFrankfurterResponseTest() {
+        String value = "88.56";
+        String currency = "INR";
+        CurrencyExchangeRate exchangeRate = new CurrencyExchangeRate();
+        exchangeRate.setCurrency(currency);
+        exchangeRate.setDate("2024-08-24");
+        exchangeRate.setValue(value);
+        exchangeRate.setId(UUID.randomUUID());
+
+        when(exchangeRateRepo.findDistinctFirstByDateAndCurrency(anyString(), anyString()))
+                .thenReturn(exchangeRate);
+        FrankfurterResponse frankfurterResponse = service.getFrankfurterResponse();
+        assertEquals(value, String.valueOf(frankfurterResponse.getRates().get(currency)));
     }
 
 }

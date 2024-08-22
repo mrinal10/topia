@@ -5,7 +5,6 @@ import com.assignment.topia.dto.CurrencyTimelineResponse;
 import com.assignment.topia.dto.FrankfurterResponse;
 import com.assignment.topia.model.CurrencyExchangeRate;
 import com.assignment.topia.repository.CurrencyExchangeRateRepo;
-import com.assignment.topia.util.AppConstants;
 import com.assignment.topia.util.WebClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,14 +17,16 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-import static com.assignment.topia.util.AppConstants.*;
-
 @Service
 @Slf4j
 public class CurrencyExchangeRateService {
 
     private final CurrencyExchangeRateRepo exchangeRateRepo;
     private static final String ALLOWED_FOREIGN_CURRENCIES = "EUR,GBP,JPY,CZK";
+
+    public static final String CURRENCY_USD = "USD";
+    public static final String DATE_PATTERN  = "yyyy-MM-dd";
+    public static final String COMMA  = ",";
     private final WebClient webClient;
 
     public CurrencyExchangeRateService(CurrencyExchangeRateRepo exchangeRateRepo,
@@ -105,7 +106,7 @@ public class CurrencyExchangeRateService {
                 });
             }
             currencyTimelineResponse.setRates(timeSeries);
-            currencyTimelineResponse.setSource(AppConstants.CURRENCY_USD);
+            currencyTimelineResponse.setSource(CURRENCY_USD);
 
         } catch(Exception e) {
             log.error("Exception while exchange rate timeline ");
